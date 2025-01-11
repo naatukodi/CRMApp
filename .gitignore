@@ -11,7 +11,7 @@ obj/
 # Ignore local environment files
 .env
 appsettings.Development.json
-
+bin/Debug/net7.0/appsettings.json
 # Ignore secrets or configuration files
 appsettings.json
 appsettings.*.json
