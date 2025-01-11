@@ -1,4 +1,4 @@
-name: Azure Deployment
+name: Deploy to Azure
 
 on:
   push:
@@ -13,19 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Azure CLI
+    - name: Login to Azure
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Deploy Bicep templates
+    - name: Deploy Bicep files
       run: |
         az deployment group create \
           --resource-group crmappapi \
           --template-file bicep/main.bicep \
-          --parameters \
-            appServiceName=CRMAppService \
-            appServicePlanName=CRMAppServicePlan \
-            cosmosDbAccountName=CRMCosmosDb \
-            databaseName=CRMDatabase \
-            containerName=CRMData
+          --parameters appServiceName=CRMAppService \
+                       appServicePlanName=CRMAppPlan \
+                       cosmosDbAccountName=CRMCosmosDb \
+                       databaseName=CRMDatabase \
+                       containerName=CRMData
