@@ -3,7 +3,7 @@ param appServicePlanName string
 param appServiceName string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' = {
-  name: appServicePlanName
+  name: CRMAppPlan
   location: location
   sku: {
     name: 'B1'
@@ -14,7 +14,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' = {
 }
 
 resource appService 'Microsoft.Web/sites@2021-03-01' = {
-  name: appServiceName
+  name: CRMAppService
   location: location
   properties: {
     serverFarmId: appServicePlan.id
