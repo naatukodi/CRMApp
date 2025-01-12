@@ -1,7 +1,7 @@
 param location string = resourceGroup().location
-param appServiceName string = 'crmappservice-${uniqueString(resourceGroup().id)}'
-param appServicePlanName string = 'crmappplan-${uniqueString(resourceGroup().id)}'
-param cosmosDbAccountName string = toLower('crmcosmosdb-${uniqueString(resourceGroup().id)}')
+param appServiceName string = 'naatukodicrmappservice'
+param appServicePlanName string = 'naatukodicrmappplan)}'
+param cosmosDbAccountName string = toLower('naatukodicrmcosmosdb)}')
 param databaseName string
 param containerName string
 
