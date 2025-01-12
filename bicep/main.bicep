@@ -22,6 +22,15 @@ module appService './appservice.bicep' = {
   }
 }
 
+resource myAppService 'Microsoft.Web/sites@2021-02-01' = {
+  name: 'myAppService'
+  location: resourceGroup().location
+  properties: {
+    appServiceName: 'myAppServiceName' // Add this line
+    // other properties
+  }
+}
+
 module cosmosDb './cosmosdb.bicep' = {
   name: 'cosmosDb'
   params: {
