@@ -21,10 +21,10 @@ jobs:
     - name: Deploy Bicep files
       run: |
         az deployment group create \
-          --resource-group crmappapi \
+          --resource-group naatukodi \
           --template-file bicep/main.bicep \
-          --parameters appServiceName=CRMAppService \
-                       appServicePlanName=CRMAppPlan \
+          --parameters appServiceName=naatukodiAppService \
+                       appServicePlanName=naatukodiAppPlan \
                        cosmosDbAccountName=CRMCosmosDb \
                        databaseName=CRMDatabase \
                        containerName=CRMData
