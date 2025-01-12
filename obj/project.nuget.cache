@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5wa2DN34Lr16pN/Jrq08FvJwYsyBV5+5QyXbh/m+WCaCls3P8IOSJnCBg3vyYvgLMBjBluZ4nkYiOqHFPMLBwQ==",
+  "dgSpecHash": "2RP2/8UJZZZ4C6e7a6S5Ff7durSNXXpiFpUW5UXgJPRrJKZNBlPZxapHurnz/mjwscg6jXpTAfTeECqet4zX8Q==",
   "success": true,
-  "projectFilePath": "/Users/tirurao/CRMapp/CRMApp/CRMApp.csproj",
+  "projectFilePath": "/Users/tirurao/Staticapp/CRMApp/CRMApp.csproj",
   "expectedPackageFiles": [
     "/Users/tirurao/.nuget/packages/azure.core/1.44.1/azure.core.1.44.1.nupkg.sha512",
     "/Users/tirurao/.nuget/packages/microsoft.aspnetcore.openapi/7.0.20/microsoft.aspnetcore.openapi.7.0.20.nupkg.sha512",

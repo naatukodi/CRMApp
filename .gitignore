@@ -12,6 +12,12 @@ obj/
 .env
 appsettings.Development.json
 bin/Debug/net7.0/appsettings.json
+bin/Debug/net7.0/appsettings.Development.json
+bin/Debug/net7.0/appsettings.Production.json
+bin/Debug/net7.0/appsettings.Staging.json
+bin/Debug/net7.0/appsettings.Test.json
+bin/Debug/net7.0/appsettings.Local.json
+
 # Ignore secrets or configuration files
 appsettings.json
 appsettings.*.json

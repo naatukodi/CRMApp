@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/tirurao/CRMapp/CRMApp/CRMApp.csproj": {}
+    "/Users/tirurao/Staticapp/CRMApp/CRMApp.csproj": {}
   },
   "projects": {
-    "/Users/tirurao/CRMapp/CRMApp/CRMApp.csproj": {
+    "/Users/tirurao/Staticapp/CRMApp/CRMApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/tirurao/CRMapp/CRMApp/CRMApp.csproj",
+        "projectUniqueName": "/Users/tirurao/Staticapp/CRMApp/CRMApp.csproj",
         "projectName": "CRMApp",
-        "projectPath": "/Users/tirurao/CRMapp/CRMApp/CRMApp.csproj",
+        "projectPath": "/Users/tirurao/Staticapp/CRMApp/CRMApp.csproj",
         "packagesPath": "/Users/tirurao/.nuget/packages/",
-        "outputPath": "/Users/tirurao/CRMapp/CRMApp/obj/",
+        "outputPath": "/Users/tirurao/Staticapp/CRMApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/tirurao/.nuget/NuGet/NuGet.Config"
