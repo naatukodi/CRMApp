@@ -4,7 +4,7 @@ param databaseName string
 param containerName string
 
 resource cosmosDbAccount 'Microsoft.DocumentDB/databaseAccounts@2021-06-15' = {
-  name: cosmosDbAccountName
+  name: CRMCosmosDb
   location: location
   kind: 'GlobalDocumentDB'
   properties: {
@@ -23,7 +23,7 @@ resource cosmosDbAccount 'Microsoft.DocumentDB/databaseAccounts@2021-06-15' = {
 
 resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2021-06-15' = {
   parent: cosmosDbAccount
-  name: databaseName
+  name: CRMDatabase
   properties: {
     resource: {
       id: databaseName
@@ -33,10 +33,10 @@ resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2021-06-15
 
 resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2021-06-15' = {
   parent: database
-  name: containerName
+  name: CRMData
   properties: {
     resource: {
-      id: containerName
+      id: CRMData
       partitionKey: {
         paths: ['/CustomerId']
         kind: 'Hash'
