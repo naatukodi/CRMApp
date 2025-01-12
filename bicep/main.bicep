@@ -1,7 +1,7 @@
 param location string = resourceGroup().location
-param appServiceName string
-param appServicePlanName string
-param cosmosDbAccountName string
+param appServiceName string = 'crmappservice-${uniqueString(resourceGroup().id)}'
+param appServicePlanName string = 'crmappplan-${uniqueString(resourceGroup().id)}'
+param cosmosDbAccountName string = toLower('crmcosmosdb-${uniqueString(resourceGroup().id)}')
 param databaseName string
 param containerName string
 
@@ -10,7 +10,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' = {
   name: appServicePlanName
   location: location
   sku: {
-    name: 'B1' // Basic SKU
+    name: 'B1'
     tier: 'Basic'
     capacity: 1
   }
