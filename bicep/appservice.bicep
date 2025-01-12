@@ -3,10 +3,10 @@ param appServicePlanName string
 param appServiceName string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' = {
-  name: CRMAppPlan
+  name: appServicePlanName
   location: location
   sku: {
-    name: 'B1'
+    name: 'B1' // Basic SKU
     tier: 'Basic'
     capacity: 1
   }
@@ -14,7 +14,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-03-01' = {
 }
 
 resource appService 'Microsoft.Web/sites@2021-03-01' = {
-  name: CRMAppService
+  name: appServiceName
   location: location
   properties: {
     serverFarmId: appServicePlan.id
