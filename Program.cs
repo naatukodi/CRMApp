@@ -20,8 +20,8 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
 });
 
 // Register repositories
-builder.Services.AddScoped<CustomerRepository>();
-builder.Services.AddScoped<FeedbackRepository>();
+//builder.Services.AddScoped<CustomerRepository>();
+//builder.Services.AddScoped<FeedbackRepository>();
 builder.Services.AddScoped<CRMRepository>();
 
 var app = builder.Build();

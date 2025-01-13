@@ -23,7 +23,7 @@ namespace CRMApp.Controllers
             return Ok(new { message = "Customer added successfully!" });
         }
 
-        [HttpGet]
+        [HttpGet]   
         public IActionResult GetAllCustomers()
         {
             var customers = _repository.GetAllCustomersAsync().Result;
