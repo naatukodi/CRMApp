@@ -41,11 +41,11 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Use Swagger
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+// }
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
