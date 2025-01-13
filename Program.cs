@@ -14,8 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CosmosClient>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
-    var endpoint = configuration["CosmosDb__AccountEndpoint"];
-    var key = configuration["CosmosDb__AccountKey"];
+    var endpoint = configuration["CosmosDb:AccountEndpoint"];
+    var key = configuration["CosmosDb:AccountKey"];
     return new CosmosClient(endpoint, key);
 });
 
@@ -32,9 +32,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var configuration = services.GetRequiredService<IConfiguration>();
     var cosmosClient = services.GetRequiredService<CosmosClient>();
-    var databaseName = configuration["CosmosDb__DatabaseName"];
-    var containerName = configuration["CosmosDb__ContainerName"];
-    var partitionKeyPath = configuration["CosmosDb__PartitionKeyPath"];
+    var databaseName = configuration["CosmosDb:DatabaseName"];
+    var containerName = configuration["CosmosDb:ContainerName"];
+    var partitionKeyPath = configuration["CosmosDb:PartitionKeyPath"];
 
     var database = cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName).Result.Database;
     database.CreateContainerIfNotExistsAsync(containerName, partitionKeyPath).Wait();
