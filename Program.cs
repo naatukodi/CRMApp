@@ -10,12 +10,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add Cosmos DB client
-builder.Services.AddSingleton(sp =>
+// Add Cosmos DB client as a service
+builder.Services.AddSingleton<CosmosClient>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
-    return new CosmosClient(configuration["CosmosDb:ConnectionString"]);
+    var endpoint = configuration["CosmosDb:AccountEndpoint"];
+    var key = configuration["CosmosDb:AccountKey"];
+    return new CosmosClient(endpoint, key);
 });
+
 // Register repositories
 builder.Services.AddScoped<CustomerRepository>();
 builder.Services.AddScoped<FeedbackRepository>();
@@ -29,8 +32,12 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var configuration = services.GetRequiredService<IConfiguration>();
     var cosmosClient = services.GetRequiredService<CosmosClient>();
-    var database = cosmosClient.CreateDatabaseIfNotExistsAsync(configuration["CosmosDb:DatabaseName"]).Result.Database;
-    database.CreateContainerIfNotExistsAsync(configuration["CosmosDb:ContainerName"], "/CustomerId").Wait();
+    var databaseName = configuration["CosmosDb:DatabaseName"];
+    var containerName = configuration["CosmosDb:ContainerName"];
+    var partitionKeyPath = configuration["CosmosDb:PartitionKeyPath"];
+
+    var database = cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName).Result.Database;
+    database.CreateContainerIfNotExistsAsync(containerName, partitionKeyPath).Wait();
 }
 
 // Use Swagger
