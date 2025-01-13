@@ -14,8 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<CosmosClient>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
-    var endpoint = configuration["CosmosDb:AccountEndpoint"];
-    var key = configuration["CosmosDb:AccountKey"];
+    var endpoint = configuration["CosmosDb__AccountEndpoint"];
+    var key = configuration["CosmosDb__AccountKey"];
     return new CosmosClient(endpoint, key);
 });
 
