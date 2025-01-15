@@ -35,6 +35,7 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
 //builder.Services.AddScoped<FeedbackRepository>();
 builder.Services.AddScoped<CRMRepository>();
 builder.Services.AddScoped<FarmerQuestionnaireRepository>();
+builder.Services.AddSingleton<BusinessFeedbackRepository>();
 
 var app = builder.Build();
 
