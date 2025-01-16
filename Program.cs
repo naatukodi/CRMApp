@@ -38,6 +38,7 @@ builder.Services.AddScoped<FarmerQuestionnaireRepository>();
 builder.Services.AddSingleton<BusinessQuestionnaireRepository>();
 builder.Services.AddSingleton<BusinessRegistrationRepository>();
 builder.Services.AddSingleton<FarmerRegistrationRepository>();
+builder.Services.AddSingleton<ChickenFarmingRepository>();
 
 var app = builder.Build();
 
