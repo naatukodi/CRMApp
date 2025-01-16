@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace CRMApp.Models
 {
-    public class BusinessFeedback
+    public class BusinessQuestionnaire
     {
         public string id { get; set; } = Guid.NewGuid().ToString(); // Unique identifier
-        public string Type { get; set; } = "BusinessFeedback"; // Document type identifier
+        public string Type { get; set; } = "BusinessQuestionnaire"; // Document type identifier
         public string? CustomerId { get; set; } // Partition Key
         public string? BusinessName { get; set; }
         public string? ContactPerson { get; set; }
