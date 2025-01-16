@@ -21,7 +21,7 @@ public class FarmerQuestionnaire
     public bool SupplyDirectlyToMarket { get; set; }
     public string? MarketRequirements { get; set; }
     public bool InterestedInBuyBack { get; set; }
-    public int? BuyBackChickenCount { get; set; }
+    public string? BuyBackChickenCount { get; set; }
     public bool InterestedInVetSupport { get; set; }
     public List<string>? VetSupportType { get; set; }
     public List<string>? AssistanceRequired { get; set; }
