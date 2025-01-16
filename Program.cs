@@ -37,6 +37,7 @@ builder.Services.AddScoped<CRMRepository>();
 builder.Services.AddScoped<FarmerQuestionnaireRepository>();
 builder.Services.AddSingleton<BusinessQuestionnaireRepository>();
 builder.Services.AddSingleton<BusinessRegistrationRepository>();
+builder.Services.AddSingleton<FarmerRegistrationRepository>();
 
 var app = builder.Build();
 
