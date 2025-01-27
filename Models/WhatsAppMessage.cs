@@ -16,6 +16,9 @@ namespace CRMApp.Models
 
         [JsonPropertyName("interactive_reply")]
         public InteractiveReply? InteractiveReply { get; set; }
+
+        [JsonPropertyName("receivedTimestamp")]
+        public string? ReceivedTimestamp { get; set; }
     }
 
     public class InteractiveReply

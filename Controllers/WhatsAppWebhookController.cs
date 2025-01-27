@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Threading.Tasks;
 using CRMApp.Services;
 using CRMApp.Models;
-using System.Text.Json;
 
 [ApiController]
 [Route("api/whatsapp")]
@@ -17,47 +18,77 @@ public class WhatsAppWebhookController : ControllerBase
     [HttpPost("webhook")]
     public async Task<IActionResult> HandleEventGridWebhook([FromBody] JsonElement payload)
     {
+        // Ensure the payload is an array
         if (payload.ValueKind != JsonValueKind.Array)
         {
             return BadRequest("Payload must be an array.");
         }
 
+        // Iterate through each event in the payload
         foreach (var eventObj in payload.EnumerateArray())
         {
+            // Check if the event is a subscription validation event
             if (eventObj.TryGetProperty("eventType", out var eventTypeProp) &&
                 eventTypeProp.GetString() == "Microsoft.EventGrid.SubscriptionValidationEvent")
             {
+                // Extract the validation code and respond
                 var validationCode = eventObj.GetProperty("data").GetProperty("validationCode").GetString();
                 Console.WriteLine($"Validation Code Received: {validationCode}");
 
                 return Ok(new { validationResponse = validationCode });
             }
 
-            // Process regular WhatsApp messages if present
-            try
+            // Check if the event is a WhatsApp message event
+            if (eventObj.TryGetProperty("eventType", out var eventType) &&
+                eventType.GetString() == "Microsoft.Communication.IncomingMessage")
             {
-                var message = JsonSerializer.Deserialize<WhatsAppMessage>(eventObj.GetRawText());
+                try
+                {
+                    // Deserialize the WhatsApp message event
+                    var messageData = eventObj.GetProperty("data");
 
-                if (message == null || string.IsNullOrEmpty(message.Body) || string.IsNullOrEmpty(message.From))
-                    return BadRequest("Invalid message received.");
+                    var whatsAppMessage = new WhatsAppMessage
+                    {
+                        From = messageData.GetProperty("from").GetString(),
+                        Body = messageData.GetProperty("message").GetString(),
+                        ReceivedTimestamp = messageData.GetProperty("receivedTimestamp").GetString()
+                    };
 
-                string responseText = @"👋 Welcome to Naatukodi by GSR!  
-                Please select an option by replying with a number:
+                    // Validate the message
+                    if (string.IsNullOrEmpty(whatsAppMessage.From) || string.IsNullOrEmpty(whatsAppMessage.Body))
+                    {
+                        return BadRequest("Invalid WhatsApp message received.");
+                    }
 
-                1️⃣ Register as a Farmer (రెజిస్ట్రేషన్)  
-                2️⃣ Order Chicks (కోడి పిల్లల ఆర్డర్)  
-                3️⃣ Request Vet Support (పశువైద్య సహాయం)  
-                4️⃣ Sell Chickens (కోడి అమ్మకం)  
-                5️⃣ Check Market Prices (మార్కెట్ ధరలు)";
+                    // Prepare the response message
+                    string responseText = @"👋 Welcome to Naatukodi by GSR!  
+                    Please select an option by replying with a number:
 
-                await _acsService.SendWhatsAppMessage(message.From, responseText);
-            }
-            catch
-            {
-                return BadRequest("Invalid message format.");
+                    1️⃣ Register as a Farmer (రెజిస్ట్రేషన్)  
+                    2️⃣ Order Chicks (కోడి పిల్లల ఆర్డర్)  
+                    3️⃣ Request Vet Support (పశువైద్య సహాయం)  
+                    4️⃣ Sell Chickens (కోడి అమ్మకం)  
+                    5️⃣ Check Market Prices (మార్కెట్ ధరలు)";
+
+                    // Send the response via Azure Communication Services
+                    await _acsService.SendWhatsAppMessage(whatsAppMessage.From, responseText);
+
+                    Console.WriteLine($"Processed WhatsApp message from {whatsAppMessage.From}: {whatsAppMessage.Body}");
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine($"Error deserializing WhatsApp message: {ex.Message}");
+                    return BadRequest("Invalid WhatsApp message format.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error processing WhatsApp message: {ex.Message}");
+                    return StatusCode(500, "An error occurred while processing the message.");
+                }
             }
         }
 
+        // Return success if no errors occurred
         return Ok();
     }
 }

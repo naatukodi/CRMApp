@@ -1,0 +1,1 @@
+az webapp log tail --name naatukodiAppService --resource-group naatukodi
