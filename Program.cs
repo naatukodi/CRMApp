@@ -2,6 +2,8 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CRMApp.Repository;
+using CRMApp.Services;
+using CRMApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,9 @@ builder.Services.AddSingleton<BusinessQuestionnaireRepository>();
 builder.Services.AddSingleton<BusinessRegistrationRepository>();
 builder.Services.AddSingleton<FarmerRegistrationRepository>();
 builder.Services.AddSingleton<ChickenFarmingRepository>();
+builder.Services.AddSingleton<IAzureCommunicationService, AzureCommunicationService>();
+builder.Services.AddSingleton<IAcsService, AcsService>();
+builder.Services.Configure<AcsSettings>(builder.Configuration.GetSection("ACS"));
 
 var app = builder.Build();
 
