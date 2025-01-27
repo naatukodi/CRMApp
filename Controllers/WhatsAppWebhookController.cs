@@ -31,7 +31,7 @@ public class WhatsAppWebhookController : ControllerBase
         WhatsAppMessage message;
         try
         {
-            message = JsonSerializer.Deserialize<WhatsAppMessage>(payload.GetRawText());
+            message = JsonSerializer.Deserialize<WhatsAppMessage>(payload.GetRawText()) ?? new WhatsAppMessage();
         }
         catch
         {
