@@ -38,19 +38,19 @@ public class WhatsAppWebhookController : ControllerBase
                 return Ok(new { validationResponse = validationCode });
             }
 
-            // Check if the event is a WhatsApp message event
+            // Check if the event is an advanced WhatsApp message event
             if (eventObj.TryGetProperty("eventType", out var eventType) &&
-                eventType.GetString() == "Microsoft.Communication.IncomingMessage")
+                eventType.GetString() == "Microsoft.Communication.AdvancedMessageReceived")
             {
                 try
                 {
-                    // Deserialize the WhatsApp message event
+                    // Deserialize the advanced WhatsApp message event
                     var messageData = eventObj.GetProperty("data");
 
                     var whatsAppMessage = new WhatsAppMessage
                     {
                         From = messageData.GetProperty("from").GetString(),
-                        Body = messageData.GetProperty("message").GetString(),
+                        Body = messageData.GetProperty("content").GetString(),
                         ReceivedTimestamp = messageData.GetProperty("receivedTimestamp").GetString()
                     };
 
