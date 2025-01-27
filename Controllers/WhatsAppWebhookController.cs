@@ -17,40 +17,47 @@ public class WhatsAppWebhookController : ControllerBase
     [HttpPost("webhook")]
     public async Task<IActionResult> HandleEventGridWebhook([FromBody] JsonElement payload)
     {
-        // Check if this is an Event Grid Subscription Validation request
-        if (payload.TryGetProperty("eventType", out var eventTypeProp) &&
-            eventTypeProp.GetString() == "Microsoft.EventGrid.SubscriptionValidationEvent")
+        if (payload.ValueKind != JsonValueKind.Array)
         {
-            var validationCode = payload.GetProperty("data").GetProperty("validationCode").GetString();
-            Console.WriteLine($"Validation Code Received: {validationCode}");
-
-            return Ok(new { validationResponse = validationCode });
+            return BadRequest("Payload must be an array.");
         }
 
-        // Handle regular WhatsApp messages
-        WhatsAppMessage message;
-        try
+        foreach (var eventObj in payload.EnumerateArray())
         {
-            message = JsonSerializer.Deserialize<WhatsAppMessage>(payload.GetRawText()) ?? new WhatsAppMessage();
+            if (eventObj.TryGetProperty("eventType", out var eventTypeProp) &&
+                eventTypeProp.GetString() == "Microsoft.EventGrid.SubscriptionValidationEvent")
+            {
+                var validationCode = eventObj.GetProperty("data").GetProperty("validationCode").GetString();
+                Console.WriteLine($"Validation Code Received: {validationCode}");
+
+                return Ok(new { validationResponse = validationCode });
+            }
+
+            // Process regular WhatsApp messages if present
+            try
+            {
+                var message = JsonSerializer.Deserialize<WhatsAppMessage>(eventObj.GetRawText());
+
+                if (message == null || string.IsNullOrEmpty(message.Body) || string.IsNullOrEmpty(message.From))
+                    return BadRequest("Invalid message received.");
+
+                string responseText = @"👋 Welcome to Naatukodi by GSR!  
+                Please select an option by replying with a number:
+
+                1️⃣ Register as a Farmer (రెజిస్ట్రేషన్)  
+                2️⃣ Order Chicks (కోడి పిల్లల ఆర్డర్)  
+                3️⃣ Request Vet Support (పశువైద్య సహాయం)  
+                4️⃣ Sell Chickens (కోడి అమ్మకం)  
+                5️⃣ Check Market Prices (మార్కెట్ ధరలు)";
+
+                await _acsService.SendWhatsAppMessage(message.From, responseText);
+            }
+            catch
+            {
+                return BadRequest("Invalid message format.");
+            }
         }
-        catch
-        {
-            return BadRequest("Invalid message format.");
-        }
 
-        if (message == null || string.IsNullOrEmpty(message.Body) || string.IsNullOrEmpty(message.From))
-            return BadRequest("Invalid message received.");
-
-        string responseText = @"👋 Welcome to Naatukodi by GSR!  
-        Please select an option by replying with a number:
-
-        1️⃣ Register as a Farmer (రెజిస్ట్రేషన్)  
-        2️⃣ Order Chicks (కోడి పిల్లల ఆర్డర్)  
-        3️⃣ Request Vet Support (పశువైద్య సహాయం)  
-        4️⃣ Sell Chickens (కోడి అమ్మకం)  
-        5️⃣ Check Market Prices (మార్కెట్ ధరలు)";
-
-        await _acsService.SendWhatsAppMessage(message.From, responseText);
         return Ok();
     }
 }
