@@ -209,3 +209,6 @@
 /Users/tirurao/Working/CRMApp/CRMApp/obj/Debug/net7.0/CRMApp.pdb
 /Users/tirurao/Working/CRMApp/CRMApp/obj/Debug/net7.0/CRMApp.genruntimeconfig.cache
 /Users/tirurao/Working/CRMApp/CRMApp/obj/Debug/net7.0/ref/CRMApp.dll
+/Users/tirurao/Working/CRMApp/CRMApp/bin/Debug/net7.0/Azure.Communication.Chat.dll
+/Users/tirurao/Working/CRMApp/CRMApp/bin/Debug/net7.0/Azure.Communication.Common.dll
+/Users/tirurao/Working/CRMApp/CRMApp/bin/Debug/net7.0/Azure.Communication.Messages.dll
