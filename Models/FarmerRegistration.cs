@@ -9,7 +9,7 @@ namespace CRMApp.Models
         public string? CustomerId { get; set; }
         public string? FullName { get; set; }
         public string? AadharNumber { get; set; }
-        public string? PhoneOrEmail { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? FarmerType { get; set; }
         public string? FarmerSubtype { get; set; }
         public string? Address { get; set; }

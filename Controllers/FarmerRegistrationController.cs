@@ -27,5 +27,25 @@ namespace CRMApp.Controllers
             await _repository.AddFarmerAsync(farmer);
             return Ok(new { message = "Farmer registered successfully!" });
         }
+
+        [HttpGet("check")]
+        public async Task<IActionResult> CheckFarmerRegistration([FromQuery] string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                return BadRequest(new { message = "Phone number is required." });
+            }
+
+            FarmerRegistration farmer = await _repository.GetFarmerByPhoneNumberAsync(phoneNumber)!;
+
+            if (farmer != null)
+            {
+                return Ok(new { status = "registered", farmer });
+            }
+            else
+            {
+                return Ok(new { status = "notregistered", farmer = (FarmerRegistration?)null });
+            }
+        }
     }
 }
