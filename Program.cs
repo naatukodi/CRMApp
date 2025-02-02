@@ -32,6 +32,15 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
     return new CosmosClient(endpoint, key);
 });
 
+// Register CosmosDbService
+builder.Services.AddSingleton<ICosmosDbService>(sp =>
+{
+    var cosmosClient = sp.GetRequiredService<CosmosClient>();
+    var databaseName = builder.Configuration["CosmosDb:DatabaseName"];
+    var containerName = builder.Configuration["CosmosDb:ContainerName"];
+    return new CosmosDbService(cosmosClient, databaseName, containerName);
+});
+
 // Register repositories
 //builder.Services.AddScoped<CustomerRepository>();
 //builder.Services.AddScoped<FeedbackRepository>();
@@ -41,6 +50,8 @@ builder.Services.AddSingleton<BusinessQuestionnaireRepository>();
 builder.Services.AddSingleton<BusinessRegistrationRepository>();
 builder.Services.AddSingleton<FarmerRegistrationRepository>();
 builder.Services.AddSingleton<ChickenFarmingRepository>();
+builder.Services.AddScoped<IChickenRepository, ChickenRepository>();
+builder.Services.AddScoped<IBatchService, BatchService>();
 builder.Services.AddSingleton<IAzureCommunicationService, AzureCommunicationService>();
 builder.Services.AddSingleton<IAcsService, AcsService>();
 builder.Services.Configure<AcsSettings>(builder.Configuration.GetSection("ACS"));
