@@ -8,7 +8,7 @@ namespace CRMApp.Models
         public string Type { get; set; } = "ChickenFarming"; // Document type identifier
         public string? CustomerId { get; set; }
         public string? FarmerName { get; set; }
-        public string? PhoneOrEmail { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? FarmingType { get; set; }
         public string? ChickenCount { get; set; }
         public string? FeedType { get; set; }
