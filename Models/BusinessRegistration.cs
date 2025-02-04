@@ -5,7 +5,7 @@ namespace CRMApp.Models
     public class BusinessRegistration
     {
         public string id { get; set; } = Guid.NewGuid().ToString();
-        public string? CustomerId { get; set; }
+        public string? customerId { get; set; }
         public string Type { get; set; } = "Business"; // Document type identifier
         public string? BusinessName { get; set; }
         public string? OwnerName { get; set; }

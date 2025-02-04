@@ -25,8 +25,8 @@ public class Chicken
     [JsonPropertyName("dateOfBirth")]
     public DateTime? DateOfBirth { get; set; }
 
-    [JsonPropertyName("CustomerId")]
-    public string? CustomerId { get; set; } // Partition key, lowercase for Cosmos DB compatibility
+    [JsonPropertyName("customerId")]
+    public string? customerId { get; set; } // Partition key, lowercase for Cosmos DB compatibility
 
     [JsonPropertyName("healthRecords")]
     public List<HealthRecord> HealthRecords { get; set; } = new();

@@ -32,7 +32,7 @@ public class BatchesController : ControllerBase
             return BadRequest("Batch data is required.");
         }
 
-        if (string.IsNullOrEmpty(batch.CustomerId))
+        if (string.IsNullOrEmpty(batch.customerId))
         {
             return BadRequest("UserId is required.");
         }
@@ -42,14 +42,14 @@ public class BatchesController : ControllerBase
     }
 
     [HttpGet("batches")]
-    public async Task<IActionResult> GetBatchesByUserId([FromQuery] string CustomerId)
+    public async Task<IActionResult> GetBatchesByUserId([FromQuery] string customerId)
     {
-        if (string.IsNullOrEmpty(CustomerId))
+        if (string.IsNullOrEmpty(customerId))
         {
             return BadRequest("UserId is required.");
         }
 
-        var batches = await _batchService.GetBatchesByUserIdAsync(CustomerId);
+        var batches = await _batchService.GetBatchesByUserIdAsync(customerId);
         if (batches == null || !batches.Any())
         {
             return NotFound("No batches found.");
@@ -59,14 +59,14 @@ public class BatchesController : ControllerBase
     }
 
     [HttpGet("batches/{batchId}/chickens")]
-    public async Task<IActionResult> GetChickensByBatchId(string batchId, [FromQuery] string CustomerId)
+    public async Task<IActionResult> GetChickensByBatchId(string batchId, [FromQuery] string customerId)
     {
-        if (string.IsNullOrEmpty(CustomerId))
+        if (string.IsNullOrEmpty(customerId))
         {
             return BadRequest("UserId is required.");
         }
 
-        var chickens = await _batchService.GetChickensByBatchIdAsync(CustomerId, batchId);
+        var chickens = await _batchService.GetChickensByBatchIdAsync(customerId, batchId);
         if (chickens == null || !chickens.Any())
         {
             return NotFound("No chickens found for this batch.");
@@ -76,17 +76,17 @@ public class BatchesController : ControllerBase
     }
 
     [HttpGet("batches/{batchId}")]
-    public async Task<IActionResult> GetBatchById(string batchId, [FromQuery] string CustomerId)
+    public async Task<IActionResult> GetBatchById(string batchId, [FromQuery] string customerId)
     {
-        if (string.IsNullOrEmpty(CustomerId))
+        if (string.IsNullOrEmpty(customerId))
         {
             return BadRequest("UserId is required.");
         }
 
         try
         {
-            // Fetch the batch using batchId and CustomerId
-            var batch = await _batchService.GetBatchByIdAsync(CustomerId, batchId);
+            // Fetch the batch using batchId and customerId
+            var batch = await _batchService.GetBatchByIdAsync(customerId, batchId);
 
             if (batch == null)
             {
@@ -102,29 +102,29 @@ public class BatchesController : ControllerBase
     }
 
     [HttpPatch("batches/{batchId}/feed")]
-    public async Task<IActionResult> AddFeedDetails(string batchId, [FromQuery] string CustomerId, [FromBody] FeedDetails feedDetails)
+    public async Task<IActionResult> AddFeedDetails(string batchId, [FromQuery] string customerId, [FromBody] FeedDetails feedDetails)
     {
         if (feedDetails == null)
         {
             return BadRequest("Feed details are required.");
         }
 
-        var batch = await _cosmosDbService.GetItemAsync<Batch>(batchId, CustomerId);
+        var batch = await _cosmosDbService.GetItemAsync<Batch>(batchId, customerId);
         if (batch == null)
         {
             return NotFound("Batch not found.");
         }
 
         batch.FeedDetails.Add(feedDetails);
-        await _cosmosDbService.UpdateItemAsync(batch.id, batch, CustomerId);
+        await _cosmosDbService.UpdateItemAsync(batch.id, batch, customerId);
 
         return Ok(batch);
     }
 
     [HttpPatch("batches/{batchId}/status")]
-    public async Task<IActionResult> UpdateBatchStatus(string batchId, [FromQuery] string CustomerId, [FromBody] bool completed)
+    public async Task<IActionResult> UpdateBatchStatus(string batchId, [FromQuery] string customerId, [FromBody] bool completed)
     {
-        var batch = await _cosmosDbService.GetItemAsync<Batch>(batchId, CustomerId);
+        var batch = await _cosmosDbService.GetItemAsync<Batch>(batchId, customerId);
         if (batch == null)
         {
             return NotFound("Batch not found.");
@@ -133,7 +133,7 @@ public class BatchesController : ControllerBase
         batch.Completed = completed;
         batch.Active = !completed;
 
-        await _cosmosDbService.UpdateItemAsync(batch.id, batch, CustomerId);
+        await _cosmosDbService.UpdateItemAsync(batch.id, batch, customerId);
 
         return Ok(batch);
     }

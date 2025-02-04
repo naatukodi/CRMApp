@@ -17,7 +17,7 @@ namespace CRMApp.Repository
 
         public async Task AddFarmerAsync(FarmerRegistration farmer)
         {
-            await _container.CreateItemAsync(farmer, new PartitionKey(farmer.CustomerId));
+            await _container.CreateItemAsync(farmer, new PartitionKey(farmer.customerId));
         }
 
         // Method that returns the first matching farmer or null if none exists.

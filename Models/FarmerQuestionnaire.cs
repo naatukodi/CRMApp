@@ -6,7 +6,7 @@ public class FarmerQuestionnaire
 {
     public string id { get; set; } = Guid.NewGuid().ToString(); // Unique identifier
     public string Type { get; set; } = "FarmerQuestionnaire"; // Document type identifier
-    public string? CustomerId { get; set; } // Partition Key
+    public string? customerId { get; set; } // Partition Key
     public string? Name { get; set; }
     public string? Location { get; set; }
     public string? ContactInfo { get; set; }

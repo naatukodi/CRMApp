@@ -17,7 +17,7 @@ namespace CRMApp.Repository
 
         public async Task AddFeedbackAsync(BusinessQuestionnaire feedback)
         {
-            await _container.CreateItemAsync(feedback, new PartitionKey(feedback.CustomerId));
+            await _container.CreateItemAsync(feedback, new PartitionKey(feedback.customerId));
         }
     }
 }

@@ -13,10 +13,10 @@ public class ChickenRepository : IChickenRepository
         _cosmosDbService = cosmosDbService;
     }
 
-    public async Task<List<Chicken>> GetChickensByUserIdAsync(string CustomerId)
+    public async Task<List<Chicken>> GetChickensByUserIdAsync(string customerId)
     {
-        var queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.CustomerId = @CustomerId")
-                                .WithParameter("@CustomerId", CustomerId);
+        var queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.customerId = @customerId")
+                                .WithParameter("@customerId", customerId);
 
         return await _cosmosDbService.GetItemsAsync<Chicken>(queryDefinition);
     }

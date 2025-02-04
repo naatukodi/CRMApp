@@ -32,9 +32,9 @@ public class ChickensController : ControllerBase
             return BadRequest("Chicken data is required.");
         }
 
-        if (string.IsNullOrEmpty(chicken.CustomerId))
+        if (string.IsNullOrEmpty(chicken.customerId))
         {
-            return BadRequest("CustomerId is required.");
+            return BadRequest("customerId is required.");
         }
 
         var json = JsonSerializer.Serialize(chicken);
@@ -47,7 +47,7 @@ public class ChickensController : ControllerBase
         {
             string type = "batch";
             // Fetch the batch using the Batch Service
-            var batch = await _batchService.GetBatchByIdAsync(type, chicken.CustomerId);
+            var batch = await _batchService.GetBatchByIdAsync(type, chicken.customerId);
 
             if (batch == null)
             {
@@ -56,7 +56,7 @@ public class ChickensController : ControllerBase
                 {
                     id = Guid.NewGuid().ToString().Kebaberize(), // new batchId as the document ID
                     batchId = chicken.batchId,
-                    CustomerId = chicken.CustomerId,
+                    customerId = chicken.customerId,
                     DateCreated = DateTime.UtcNow,
                     TotalChickens = 1,
                     Chickens = new List<ChickenDetails>
@@ -69,13 +69,13 @@ public class ChickensController : ControllerBase
                         Breed = chicken.Breed,
                         DateOfBirth = chicken.DateOfBirth,
                         Status = "alive",
-                        CustomerId = chicken.CustomerId
+                        customerId = chicken.customerId
                     }
                 }
                 };
 
                 // Save the new batch
-                await _cosmosDbService.AddItemAsync(batch, batch.CustomerId);
+                await _cosmosDbService.AddItemAsync(batch, batch.customerId);
             }
             else
             {
@@ -96,16 +96,16 @@ public class ChickensController : ControllerBase
                     Breed = chicken.Breed,
                     DateOfBirth = chicken.DateOfBirth,
                     Status = "alive",
-                    CustomerId = chicken.CustomerId
+                    customerId = chicken.customerId
                 });
                 batch.TotalChickens += 1;
 
                 // Update the batch
-                await _cosmosDbService.UpdateItemAsync(batch.id, batch, batch.CustomerId);
+                await _cosmosDbService.UpdateItemAsync(batch.id, batch, batch.customerId);
             }
 
             // Save the chicken as a separate document (if required)
-            await _cosmosDbService.AddItemAsync(chicken, chicken.CustomerId);
+            await _cosmosDbService.AddItemAsync(chicken, chicken.customerId);
 
             return CreatedAtAction(nameof(GetChickenById), new { id = chicken.id }, chicken);
         }
@@ -117,9 +117,9 @@ public class ChickensController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetChickenById(string id, [FromQuery] string CustomerId)
+    public async Task<IActionResult> GetChickenById(string id, [FromQuery] string customerId)
     {
-        if (string.IsNullOrEmpty(CustomerId))
+        if (string.IsNullOrEmpty(customerId))
         {
             return BadRequest("UserId (partition key) is required.");
         }
@@ -127,7 +127,7 @@ public class ChickensController : ControllerBase
         try
         {
             // Fetch the chicken using the provided ID and partition key (UserId)
-            var chicken = await _cosmosDbService.GetItemAsync<Chicken>(id, CustomerId);
+            var chicken = await _cosmosDbService.GetItemAsync<Chicken>(id, customerId);
             if (chicken == null)
             {
                 return NotFound("Chicken not found.");
@@ -151,7 +151,7 @@ public class ChickensController : ControllerBase
 
         try
         {
-            await _cosmosDbService.UpdateItemAsync(id, updatedChicken, updatedChicken.CustomerId);
+            await _cosmosDbService.UpdateItemAsync(id, updatedChicken, updatedChicken.customerId);
             return NoContent();
         }
         catch (CosmosException ex)
@@ -163,16 +163,16 @@ public class ChickensController : ControllerBase
 
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteChicken(string id, [FromQuery] string CustomerId)
+    public async Task<IActionResult> DeleteChicken(string id, [FromQuery] string customerId)
     {
-        if (string.IsNullOrEmpty(CustomerId))
+        if (string.IsNullOrEmpty(customerId))
         {
             return BadRequest("UserId is required.");
         }
 
         try
         {
-            await _cosmosDbService.DeleteItemAsync(id, CustomerId);
+            await _cosmosDbService.DeleteItemAsync(id, customerId);
             return NoContent();
         }
         catch (CosmosException ex)
@@ -182,9 +182,9 @@ public class ChickensController : ControllerBase
     }
 
     [HttpPatch("{id}/health")]
-    public async Task<IActionResult> UpdateHealthRecord(string id, [FromQuery] string CustomerId, [FromBody] HealthRecord healthRecord)
+    public async Task<IActionResult> UpdateHealthRecord(string id, [FromQuery] string customerId, [FromBody] HealthRecord healthRecord)
     {
-        if (string.IsNullOrEmpty(CustomerId))
+        if (string.IsNullOrEmpty(customerId))
         {
             return BadRequest("UserId is required.");
         }
@@ -197,7 +197,7 @@ public class ChickensController : ControllerBase
         try
         {
             // Fetch the chicken using the provided ID and UserId
-            var chicken = await _cosmosDbService.GetItemAsync<Chicken>(id, CustomerId);
+            var chicken = await _cosmosDbService.GetItemAsync<Chicken>(id, customerId);
             if (chicken == null)
             {
                 return NotFound("Chicken not found.");
@@ -208,7 +208,7 @@ public class ChickensController : ControllerBase
             chicken.HealthRecords.Add(healthRecord);
 
             // Update the chicken in the database
-            await _cosmosDbService.UpdateItemAsync(id, chicken, CustomerId);
+            await _cosmosDbService.UpdateItemAsync(id, chicken, customerId);
 
             return Ok(chicken);
         }
@@ -219,16 +219,16 @@ public class ChickensController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetChickensByUserId([FromQuery] string CustomerId)
+    public async Task<IActionResult> GetChickensByUserId([FromQuery] string customerId)
     {
-        if (string.IsNullOrEmpty(CustomerId))
+        if (string.IsNullOrEmpty(customerId))
         {
             return BadRequest("UserId is required.");
         }
 
         try
         {
-            var chickens = await _chickenRepository.GetChickensByUserIdAsync(CustomerId);
+            var chickens = await _chickenRepository.GetChickensByUserIdAsync(customerId);
 
             if (chickens == null || !chickens.Any())
             {
@@ -244,7 +244,7 @@ public class ChickensController : ControllerBase
     }
 
     [HttpPatch("chickens/{chickenId}/status")]
-    public async Task<IActionResult> UpdateChickenStatus(string chickenId, [FromQuery] string batchId, [FromQuery] string CustomerId, [FromBody] string status)
+    public async Task<IActionResult> UpdateChickenStatus(string chickenId, [FromQuery] string batchId, [FromQuery] string customerId, [FromBody] string status)
     {
         if (string.IsNullOrEmpty(status) || !(status == "alive" || status == "processed" || status == "deceased"))
         {

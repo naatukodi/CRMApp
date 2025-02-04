@@ -19,7 +19,7 @@ namespace CRMApp.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> RegisterChickenFarming([FromBody] ChickenFarming farming)
         {
-            if (farming == null || string.IsNullOrEmpty(farming.CustomerId))
+            if (farming == null || string.IsNullOrEmpty(farming.customerId))
             {
                 return BadRequest(new { message = "Invalid chicken farming registration data." });
             }
@@ -31,7 +31,7 @@ namespace CRMApp.Controllers
         [HttpPost("feedback")]
         public async Task<IActionResult> SubmitFeedback([FromBody] FarmerFeedback feedback)
         {
-            if (feedback == null || string.IsNullOrEmpty(feedback.CustomerId))
+            if (feedback == null || string.IsNullOrEmpty(feedback.customerId))
             {
                 return BadRequest(new { message = "Invalid feedback data." });
             }

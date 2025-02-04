@@ -9,8 +9,8 @@ public class Batch
     [JsonPropertyName("type")]
     public string Type { get; set; } = "batch"; // Document type
 
-    [JsonPropertyName("CustomerId")]
-    public string? CustomerId { get; set; } // User ID for partitioning
+    [JsonPropertyName("customerId")]
+    public string? customerId { get; set; } // User ID for partitioning
 
     [JsonPropertyName("batchId")]
     public string? batchId { get; set; }
@@ -57,8 +57,8 @@ public class ChickenDetails
     [JsonPropertyName("type")]
     public string Type { get; set; } = "chicken";
 
-    [JsonPropertyName("CustomerId")]
-    public string? CustomerId { get; set; }
+    [JsonPropertyName("customerId")]
+    public string? customerId { get; set; }
 
     [JsonPropertyName("chickenId")]
     public string? ChickenId { get; set; }

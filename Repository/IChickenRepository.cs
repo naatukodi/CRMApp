@@ -5,7 +5,7 @@ namespace CRMApp.Repository
 {
     public interface IChickenRepository
     {
-        Task<List<Chicken>> GetChickensByUserIdAsync(string CustomerId);
+        Task<List<Chicken>> GetChickensByUserIdAsync(string customerId);
 
     }
 }

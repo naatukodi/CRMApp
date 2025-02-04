@@ -34,7 +34,7 @@ public class CRMRepository
 
     public async Task<IEnumerable<Feedback>> GetFeedbackByCustomerAsync(string customerId)
     {
-        var query = new QueryDefinition("SELECT * FROM c WHERE c.type = 'feedback' AND c.CustomerId = @customerId")
+        var query = new QueryDefinition("SELECT * FROM c WHERE c.type = 'feedback' AND c.customerId = @customerId")
             .WithParameter("@customerId", customerId);
         var resultSet = _container.GetItemQueryIterator<Feedback>(query);
 
@@ -51,9 +51,9 @@ public class CRMRepository
     private string GetPartitionKey<T>(T document)
     {
         if (document is Customer customer)
-            return customer.CustomerId;
+            return customer.customerId;
         if (document is Feedback feedback)
-            return feedback.CustomerId;
+            return feedback.customerId;
 
         throw new ArgumentException("Unsupported document type");
     }

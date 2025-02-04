@@ -17,12 +17,12 @@ namespace CRMApp.Repository
 
         public async Task AddChickenFarmingAsync(ChickenFarming farming)
         {
-            await _container.CreateItemAsync(farming, new PartitionKey(farming.CustomerId));
+            await _container.CreateItemAsync(farming, new PartitionKey(farming.customerId));
         }
 
         public async Task AddFarmerFeedbackAsync(FarmerFeedback feedback)
         {
-            await _container.CreateItemAsync(feedback, new PartitionKey(feedback.CustomerId));
+            await _container.CreateItemAsync(feedback, new PartitionKey(feedback.customerId));
         }
     }
 }

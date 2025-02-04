@@ -6,7 +6,7 @@ namespace CRMApp.Models
     {
         public string id { get; set; } = Guid.NewGuid().ToString();
         public string Type { get; set; } = "FarmerFeedback";
-        public string? CustomerId { get; set; }
+        public string? customerId { get; set; }
         public string? FarmingExperience { get; set; }
         public string? Challenges { get; set; }
         public string? SupportNeeded { get; set; }

@@ -7,7 +7,7 @@ namespace CRMApp.Models
     {
         public string id { get; set; } = Guid.NewGuid().ToString(); // Unique identifier
         public string Type { get; set; } = "BusinessQuestionnaire"; // Document type identifier
-        public string? CustomerId { get; set; } // Partition Key
+        public string? customerId { get; set; } // Partition Key
         public string? BusinessName { get; set; }
         public string? ContactPerson { get; set; }
         public string? PhoneOrEmail { get; set; }

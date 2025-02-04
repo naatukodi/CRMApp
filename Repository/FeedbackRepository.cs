@@ -13,12 +13,12 @@ public class FeedbackRepository
 
     public async Task AddFeedbackAsync(Feedback feedback)
     {
-        await _container.CreateItemAsync(feedback, new PartitionKey(feedback.CustomerId));
+        await _container.CreateItemAsync(feedback, new PartitionKey(feedback.customerId));
     }
 
     public async Task<IEnumerable<Feedback>> GetFeedbackByCustomerAsync(string customerId)
     {
-        var query = new QueryDefinition("SELECT * FROM c WHERE c.CustomerId = @customerId")
+        var query = new QueryDefinition("SELECT * FROM c WHERE c.customerId = @customerId")
             .WithParameter("@customerId", customerId);
         var resultSet = _container.GetItemQueryIterator<Feedback>(query);
 

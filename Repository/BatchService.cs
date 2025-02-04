@@ -18,7 +18,7 @@ public class BatchService : IBatchService
         batch.id = Guid.NewGuid().ToString();
         batch.DateCreated = DateTime.UtcNow;
 
-        await _cosmosDbService.AddItemAsync(batch, batch.CustomerId);
+        await _cosmosDbService.AddItemAsync(batch, batch.customerId);
         return batch;
     }
 
@@ -33,21 +33,21 @@ public class BatchService : IBatchService
         return results.FirstOrDefault(); // Expecting only one batch to match
     }
 
-    public async Task<List<Chicken>> GetChickensByBatchIdAsync(string CustomerId, string batchId)
+    public async Task<List<Chicken>> GetChickensByBatchIdAsync(string customerId, string batchId)
     {
-        var queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.type = @type AND c.CustomerId = @CustomerId AND c.batchId = @batchId")
+        var queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.type = @type AND c.customerId = @customerId AND c.batchId = @batchId")
                                 .WithParameter("@type", "chicken")
-                                .WithParameter("@CustomerId", CustomerId)
+                                .WithParameter("@customerId", customerId)
                                 .WithParameter("@batchId", batchId);
 
         return await _cosmosDbService.GetItemsAsync<Chicken>(queryDefinition);
     }
 
-    public async Task<List<Batch>> GetBatchesByUserIdAsync(string CustomerId)
+    public async Task<List<Batch>> GetBatchesByUserIdAsync(string customerId)
     {
-        var queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.type = @type AND c.CustomerId = @CustomerId")
+        var queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.type = @type AND c.customerId = @customerId")
                                 .WithParameter("@type", "batch")
-                                .WithParameter("@CustomerId", CustomerId);
+                                .WithParameter("@customerId", customerId);
 
         return await _cosmosDbService.GetItemsAsync<Batch>(queryDefinition);
     }

@@ -17,7 +17,7 @@ namespace CRMApp.Repository
 
         public async Task AddBusinessAsync(BusinessRegistration business)
         {
-            await _container.CreateItemAsync(business, new PartitionKey(business.CustomerId));
+            await _container.CreateItemAsync(business, new PartitionKey(business.customerId));
         }
     }
 }

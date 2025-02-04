@@ -19,9 +19,9 @@ namespace CRMApp.Controllers
         [HttpPost("submit")]
         public async Task<IActionResult> SubmitQuestionnaire([FromBody] FarmerQuestionnaire questionnaire)
         {
-            if (questionnaire == null || string.IsNullOrEmpty(questionnaire.CustomerId))
+            if (questionnaire == null || string.IsNullOrEmpty(questionnaire.customerId))
             {
-                return BadRequest(new { message = "Questionnaire data or CustomerId is missing." });
+                return BadRequest(new { message = "Questionnaire data or customerId is missing." });
             }
 
             await _repository.AddQuestionnaireAsync(questionnaire);

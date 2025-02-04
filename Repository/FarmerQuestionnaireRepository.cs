@@ -19,12 +19,12 @@ namespace CRMApp.Repository
         // Save a new Farmer Questionnaire
         public async Task AddQuestionnaireAsync(FarmerQuestionnaire questionnaire)
         {
-            if (string.IsNullOrEmpty(questionnaire.CustomerId))
+            if (string.IsNullOrEmpty(questionnaire.customerId))
             {
-                throw new ArgumentException("CustomerId must be provided as it is the partition key.");
+                throw new ArgumentException("customerId must be provided as it is the partition key.");
             }
 
-            await _container.CreateItemAsync(questionnaire, new PartitionKey(questionnaire.CustomerId));
+            await _container.CreateItemAsync(questionnaire, new PartitionKey(questionnaire.customerId));
         }
 
         // Get all Farmer Questionnaires

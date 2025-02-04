@@ -64,7 +64,7 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
     resource: {
       id: containerName
       partitionKey: {
-        paths: ['/CustomerId']
+        paths: ['/customerId']
         kind: 'Hash'
       }
     }

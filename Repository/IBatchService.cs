@@ -6,8 +6,8 @@ namespace CRMApp.Repository;
 
 public interface IBatchService
 {
-    Task<List<Batch>> GetBatchesByUserIdAsync(string CustomerId);
+    Task<List<Batch>> GetBatchesByUserIdAsync(string customerId);
     Task<Batch> CreateBatchAsync(Batch batch);
-    Task<List<Chicken>> GetChickensByBatchIdAsync(string CustomerId, string batchId);
-    Task<Batch> GetBatchByIdAsync(string CustomerId, string batchId);
+    Task<List<Chicken>> GetChickensByBatchIdAsync(string customerId, string batchId);
+    Task<Batch> GetBatchByIdAsync(string customerId, string batchId);
 }
