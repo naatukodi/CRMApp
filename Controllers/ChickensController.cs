@@ -47,7 +47,12 @@ public class ChickensController : ControllerBase
         {
             string type = "batch";
             // Fetch the batch using the Batch Service
-            var batch = await _batchService.GetBatchByIdAsync(type, chicken.customerId);
+            if (string.IsNullOrEmpty(chicken.batchId))
+            {
+                return BadRequest("batchId is required.");
+            }
+
+            var batch = await _batchService.GetBatchByIdAsync(type, chicken.batchId);
 
             if (batch == null)
             {
@@ -101,6 +106,10 @@ public class ChickensController : ControllerBase
                 batch.TotalChickens += 1;
 
                 // Update the batch
+                if (batch.customerId == null)
+                {
+                    return BadRequest("Batch customerId is required.");
+                }
                 await _cosmosDbService.UpdateItemAsync(batch.id, batch, batch.customerId);
             }
 
