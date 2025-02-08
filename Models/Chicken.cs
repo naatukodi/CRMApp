@@ -10,6 +10,9 @@ public class Chicken
     [JsonPropertyName("id")]
     public string id { get; set; } // Cosmos DB requires lowercase 'id'
 
+    [JsonPropertyName("Type")]
+    public string Type { get; set; } = "Chicken"; // Document type identifier
+
     [JsonPropertyName("chickenId")]
     public string ChickenId { get; set; } // Uppercase first letter for consistency
 

@@ -42,6 +42,7 @@ public class ChickensController : ControllerBase
 
         // Ensure id is assigned
         chicken.id = chicken.id ?? Guid.NewGuid().ToString().Kebaberize();
+        chicken.Type = "Chicken"; // Document type identifier
 
         try
         {
@@ -73,7 +74,7 @@ public class ChickensController : ControllerBase
                         Name = chicken.Name,
                         Breed = chicken.Breed,
                         DateOfBirth = chicken.DateOfBirth,
-                        Status = "alive",
+                        Status = chicken.Status,
                         customerId = chicken.customerId
                     }
                 }
@@ -100,12 +101,20 @@ public class ChickensController : ControllerBase
                     Name = chicken.Name,
                     Breed = chicken.Breed,
                     DateOfBirth = chicken.DateOfBirth,
-                    Status = "alive",
+                    Status = chicken.Status,
                     customerId = chicken.customerId
                 });
                 batch.TotalChickens += 1;
 
                 // Update the batch
+                if (batch.customerId == null)
+                {
+                    return BadRequest("Batch customerId is required.");
+                }
+                if (batch.customerId == null)
+                {
+                    return BadRequest("Batch customerId is required.");
+                }
                 if (batch.customerId == null)
                 {
                     return BadRequest("Batch customerId is required.");
@@ -270,6 +279,66 @@ public class ChickensController : ControllerBase
         await _cosmosDbService.UpdateItemAsync(chicken.id, chicken, batchId);
 
         return Ok(chicken);
+    }
+
+    [HttpPatch("{chickenId}/customerid")]
+    public async Task<IActionResult> UpdateChickenCustomerId(
+        string chickenId,
+        [FromQuery] string oldCustomerId,
+        [FromQuery] string newCustomerId)
+    {
+        if (string.IsNullOrEmpty(chickenId) ||
+            string.IsNullOrEmpty(oldCustomerId) ||
+            string.IsNullOrEmpty(newCustomerId))
+        {
+            return BadRequest("ChickenId, oldCustomerId, and newCustomerId are required.");
+        }
+
+        try
+        {
+            // Fetch the chicken document using the old customerId as the partition key
+            var chicken = await _cosmosDbService.GetItemAsync<Chicken>(chickenId, oldCustomerId);
+            if (chicken == null)
+            {
+                return NotFound("Chicken not found.");
+            }
+
+            // Update the chicken document with the new customerId
+            chicken.customerId = newCustomerId;
+            // Note: Depending on your Cosmos DB implementation, you might need to handle the fact
+            // that the partition key (customerId) cannot be updated. This example assumes your service
+            // supports re-writing the document with a new partition key.
+            await _cosmosDbService.UpdateItemAsync(chicken.id, chicken, newCustomerId);
+
+            // If the chicken is part of a batch, update the corresponding chicken detail record.
+            if (!string.IsNullOrEmpty(chicken.batchId))
+            {
+                // Retrieve the batch using its batchId.
+                // (Here we assume the partition key for Batch documents is not the customerId being updated.)
+                var batch = await _batchService.GetBatchByIdAsync("batch", chicken.batchId);
+                if (batch != null)
+                {
+                    // Locate the chicken detail in the batch. (This lookup is based on ChickenId.)
+                    var chickenDetail = batch.Chickens.FirstOrDefault(cd => cd.ChickenId == chicken.ChickenId);
+                    if (chickenDetail != null)
+                    {
+                        chickenDetail.customerId = newCustomerId;
+                        // Update the batch document.
+                        await _cosmosDbService.UpdateItemAsync(batch.id, batch, batch.customerId);
+                    }
+                }
+            }
+
+            // Delete the old chicken document to prevent duplicate records.
+            await _cosmosDbService.DeleteItemAsync(chickenId, oldCustomerId);
+
+            return Ok(chicken);
+        }
+        catch (CosmosException ex)
+        {
+            Console.WriteLine($"Cosmos DB Error: {ex.StatusCode}, Message: {ex.Message}");
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
     }
 
 }
