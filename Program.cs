@@ -54,6 +54,8 @@ builder.Services.AddScoped<IChickenRepository, ChickenRepository>();
 builder.Services.AddScoped<IBatchService, BatchService>();
 builder.Services.AddSingleton<IAzureCommunicationService, AzureCommunicationService>();
 builder.Services.AddSingleton<IAcsService, AcsService>();
+builder.Services.AddScoped<IVetSupportRepository, VetSupportRepository>();
+builder.Services.AddScoped<IVetSupportService, VetSupportService>();
 builder.Services.Configure<AcsSettings>(builder.Configuration.GetSection("ACS"));
 
 var app = builder.Build();

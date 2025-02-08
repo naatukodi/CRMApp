@@ -6,12 +6,12 @@ namespace CRMApp.Repository;
 
 public class ChickenRepository : IChickenRepository
 {
-    private readonly ICosmosDbService _cosmosDbService;
+        private readonly ICosmosDbService _cosmosDbService;
 
-    public ChickenRepository(ICosmosDbService cosmosDbService)
-    {
-        _cosmosDbService = cosmosDbService;
-    }
+        public ChickenRepository(ICosmosDbService cosmosDbService)
+        {
+            _cosmosDbService = cosmosDbService;
+        }
 
     public async Task<List<Chicken>> GetChickensByUserIdAsync(string customerId)
     {

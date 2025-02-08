@@ -1,28 +1,20 @@
 ﻿<Properties StartupConfiguration="{FC7E1ED8-00B0-4159-AEEC-690E4687091E}|https">
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/tirurao/Working/CRMApp/CRMApp/Controllers/ChickensController.cs" relfile="Controllers/ChickensController.cs" line="29" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ChickensController.cs">
     <Files>
-      <File FileName="Repository/FarmerRegistrationRepository.cs" Line="26" Column="1" />
-      <File FileName="Models/FarmerRegistration.cs" Line="7" Column="1" />
-      <File FileName="Controllers/FarmerRegistrationController.cs" />
       <File FileName="Controllers/ChickensController.cs" Line="1" Column="1" />
-      <File FileName="Program.cs" Line="85" Column="1" />
+      <File FileName="Repository/CosmosDbService.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="CRMApp" expanded="True">
-            <Node name="CRMApp" expanded="True">
+          <Node name="CRMApp">
+            <Node name="CRMApp">
               <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Repository" expanded="True" />
-              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -30,5 +22,7 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.CRMApp PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>
