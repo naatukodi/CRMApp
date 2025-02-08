@@ -308,7 +308,17 @@ public class ChickensController : ControllerBase
             // Note: Depending on your Cosmos DB implementation, you might need to handle the fact
             // that the partition key (customerId) cannot be updated. This example assumes your service
             // supports re-writing the document with a new partition key.
-            await _cosmosDbService.UpdateItemAsync(chicken.id, chicken, newCustomerId);
+            // Attempt to add the new document with the updated customerId.
+            // If this fails, do not proceed with deletion.
+            try
+            {
+                await _cosmosDbService.UpdateItemAsync(chicken.id, chicken, newCustomerId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding new chicken document: {ex.Message}");
+                return StatusCode(500, "mapping failed");
+            }
 
             // If the chicken is part of a batch, update the corresponding chicken detail record.
             if (!string.IsNullOrEmpty(chicken.batchId))
