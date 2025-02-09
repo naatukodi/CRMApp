@@ -351,4 +351,40 @@ public class ChickensController : ControllerBase
         }
     }
 
+    [HttpGet("withoutCustomer/{id}")]
+    public async Task<IActionResult> GetChickenByIdWithoutCustomerId(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return BadRequest("Chicken id is required.");
+        }
+
+        try
+        {
+            // Build a SQL query to retrieve the chicken by its id.
+            var queryDefinition = new QueryDefinition("SELECT * FROM c WHERE c.id = @id")
+                                    .WithParameter("@id", id);
+
+            // Execute a cross-partition query. This assumes your ICosmosDbService has an
+            // implementation that supports querying items without specifying a partition key.
+            var chickens = await _cosmosDbService.GetItemsAsync<Chicken>(
+                queryDefinition
+            );
+
+            var chicken = chickens.FirstOrDefault();
+            if (chicken == null)
+            {
+                return NotFound("Chicken not found.");
+            }
+
+            return Ok(chicken);
+        }
+        catch (CosmosException ex)
+        {
+            Console.WriteLine($"Cosmos DB Error: {ex.StatusCode}, Message: {ex.Message}");
+            return StatusCode((int)ex.StatusCode, ex.Message);
+        }
+    }
+
+
 }
