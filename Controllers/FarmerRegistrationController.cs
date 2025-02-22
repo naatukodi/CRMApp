@@ -36,7 +36,7 @@ namespace CRMApp.Controllers
                 return BadRequest(new { message = "Phone number is required." });
             }
 
-            FarmerRegistration farmer = await _repository.GetFarmerByPhoneNumberAsync(phoneNumber)!;
+            FarmerRegistration? farmer = await _repository.GetFarmerByPhoneNumberAsync(phoneNumber);
 
             if (farmer != null)
             {
