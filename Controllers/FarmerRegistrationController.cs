@@ -19,7 +19,7 @@ namespace CRMApp.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterFarmer([FromBody] FarmerRegistration farmer)
         {
-            if (farmer == null || string.IsNullOrEmpty(farmer.FullName) || string.IsNullOrEmpty(farmer.customerId))
+            if (farmer == null || string.IsNullOrEmpty(farmer.Name) || string.IsNullOrEmpty(farmer.customerId))
             {
                 return BadRequest(new { message = "Invalid farmer registration data." });
             }
