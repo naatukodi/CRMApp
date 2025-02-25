@@ -1,6 +1,4 @@
 using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using CRMApp.Repository;
 using CRMApp.Services;
 using CRMApp.Models;
@@ -52,6 +50,13 @@ builder.Services.AddSingleton<FarmerRegistrationRepository>();
 builder.Services.AddSingleton<ChickenFarmingRepository>();
 builder.Services.AddScoped<IChickenRepository, ChickenRepository>();
 builder.Services.AddScoped<IBatchService, BatchService>();
+// Register IRetailSurveyRepository with a lambda that provides CosmosClient and IConfiguration.
+builder.Services.AddScoped<IRetailSurveyRepository>(sp =>
+{
+    var cosmosClient = sp.GetRequiredService<CosmosClient>();
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    return new RetailSurveyRepository(cosmosClient, configuration);
+});
 builder.Services.AddSingleton<IAzureCommunicationService, AzureCommunicationService>();
 builder.Services.AddSingleton<IAcsService, AcsService>();
 builder.Services.AddScoped<IVetSupportRepository, VetSupportRepository>();
