@@ -10,7 +10,7 @@ namespace CRMApp.Models
         public string? customerId { get; set; } // Partition Key
         public string? BusinessName { get; set; }
         public string? ContactPerson { get; set; }
-        public string? PhoneOrEmail { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? Location { get; set; }
         public string? BusinessType { get; set; }
         public string? PurchaseFrequency { get; set; }
